@@ -4,39 +4,27 @@ import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import app.config.dto.Config;
+
 import com.google.gson.Gson;
 
-import app.config.dto.AppConfig;
-import app.config.dto.RootConfig;
-
-public class ConfigReader {
-	private static ClassLoader loader = ConfigReader.class.getClassLoader();
-	private static Gson gson = new Gson();
-	private static Class<RootConfig> confClass = RootConfig.class;
+public abstract class AbstractConfigReader<T extends Config> {
+	private static ClassLoader loader = AbstractConfigReader.class.getClassLoader();
+	protected static Gson gson = new Gson();
 	private static final Pattern envVarRegex;
-	
+
 	static {
 		String envVar = "[\\w\\(\\)]+";
 		String expression = "\\$\\{(" + envVar + "+)\\}|\\$(" + envVar + ")";
-		
+
 		envVarRegex = Pattern.compile(expression);
 	}
 
-	public static RootConfig read(String filename) {
-		return load(gson.fromJson(getInputStream(filename), confClass));
+	protected static <T extends Config> T parse(String filename, Class<T> configClass) {
+		return gson.fromJson(getInputStream(filename), configClass);
 	}
 
-	protected static RootConfig load(RootConfig config) {
-		if (config != null && config.getApplications() != null) {
-			for (AppConfig app : config.getApplications()) {
-				app.setPath(resolveEnvVars(app.getPath()));
-			}
-		}
-
-		return config;
-	}
-
-	private static String resolveEnvVars(String path) {
+	protected static String resolveEnvVars(String path) {
 		if (path == null) {
 			return null;
 		}
@@ -63,7 +51,7 @@ public class ConfigReader {
 		return Matcher.quoteReplacement(envVar);
 	}
 
-	private static InputStreamReader getInputStream(String filename) {
+	protected static InputStreamReader getInputStream(String filename) {
 		return new InputStreamReader(loader.getResourceAsStream(filename));
 	}
 }
