@@ -56,7 +56,7 @@ public class AppButton extends JButton {
 	}
 
 	protected boolean isApplicationValid(File file) {
-		return file.isFile() && file.exists();
+		return file != null && file.isFile() && file.exists();
 	}
 
 	public Icon getApplicationIcon() {
