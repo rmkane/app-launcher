@@ -1,0 +1,17 @@
+{
+	"applications" : [
+		{
+			"name" : "Chrome",
+			"path" : "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+			"arguments" : []
+		}, {
+			"name" : "Eclipse",
+			"path" : "C:/Eclipse/current/eclipse.exe",
+			"arguments" : []
+		}, {
+			"name" : "Control Panel",
+			"path" : "C:/Windows/System32/control.exe",
+			"arguments" : []
+		}
+	]
+}
