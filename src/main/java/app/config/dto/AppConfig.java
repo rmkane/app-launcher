@@ -1,11 +1,21 @@
 package app.config.dto;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AppConfig {
+public class AppConfig implements Serializable {
+	private static final long serialVersionUID = -235814859551883616L;
+
 	private String name;
 	private String path;
 	private List<String> arguments;
+
+	public AppConfig() {
+		name = "";
+		path = "";
+		arguments = new ArrayList<String>();
+	}
 
 	public String getName() {
 		return name;
